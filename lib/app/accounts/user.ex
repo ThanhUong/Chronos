@@ -3,23 +3,20 @@ defmodule App.Accounts.User do
   import Ecto.Changeset
   import Bcrypt
 
+  alias App.Projects.Project
+
+  # @primary_key {:id, :binary_id, autogenerate: true}
+  # @foreign_key_type :binary_id
   schema "users" do
     field :username, :string, unique: true
     field :email, :string, unique: true
     field :password, :string
     field :image, :string
-
     timestamps()
+
+    many_to_many :projects, Project, join_through: "users_projects"
   end
 
-  @spec changeset(
-          {map, map}
-          | %{
-              :__struct__ => atom | %{:__changeset__ => map, optional(any) => any},
-              optional(atom) => any
-            },
-          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: Ecto.Changeset.t()
   @doc false
   def changeset(user, attrs) do
     user

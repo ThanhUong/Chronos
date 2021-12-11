@@ -3,6 +3,7 @@ defmodule App.Repo.Migrations.CreateUsersTable do
 
   def change do
     create table(:users) do
+      # add :id, :binary_id, primary_key: true
       add :username, :string
       add :email, :string
       add :password, :string

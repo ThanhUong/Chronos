@@ -26,6 +26,7 @@ defmodule AppWeb.Router do
 
     get "/user", UserController, :show
     put "/user", UserController, :update
+    resources "/projects", ProjectController, except: [:new, :edit]
   end
 
   # Not required Authenticated
