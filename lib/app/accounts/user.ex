@@ -23,7 +23,7 @@ defmodule App.Accounts.User do
     |> cast(attrs, [:email, :username, :image, :password])
     |> validate_required([:email, :username, :password])
     |> unique_constraint(:username, name: :users_username_index)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, name: :users_email_index)
     |> put_pass_hash()
   end
 

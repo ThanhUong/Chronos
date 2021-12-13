@@ -7,6 +7,7 @@ defmodule App.Projects.Project do
 
   schema "projects" do
     field :name, :string
+    field :image, :string
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
     timestamps()
@@ -20,7 +21,7 @@ defmodule App.Projects.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:name, :image, :start_date, :end_date, :stage_id])
+    |> validate_required([:name, :stage_id])
   end
 end
