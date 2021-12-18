@@ -3,11 +3,9 @@ defmodule App.Projects.Workflow do
   import Ecto.Changeset
 
   alias App.Projects.Stage
-  alias App.Accounts.User
 
   schema "workflows" do
     many_to_many :stages, Stage, join_through: "workflows_stages"
-    belongs_to :user, User
 
     timestamps()
   end

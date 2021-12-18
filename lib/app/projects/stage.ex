@@ -16,7 +16,7 @@ defmodule App.Projects.Stage do
   @doc false
   def changeset(stage, attrs) do
     stage
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
   end
 end

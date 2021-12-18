@@ -12,7 +12,8 @@ defmodule AppWeb.StageView do
 
   def render("stage.json", %{stage: stage}) do
     %{
-      id: stage.id
+      id: stage.id,
+      name: stage.name
     }
   end
 end

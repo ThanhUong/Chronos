@@ -19,3 +19,8 @@ Code.require_file("seeds/project_types.exs", __DIR__)
 # LEAD SOURCES
 ########################################
 Code.require_file("seeds/lead_sources.exs", __DIR__)
+
+########################################
+# STAGES
+########################################
+Code.require_file("seeds/stages.exs", __DIR__)

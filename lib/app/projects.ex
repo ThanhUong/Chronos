@@ -19,7 +19,7 @@ defmodule App.Projects do
 
   """
   def list_projects do
-    Repo.all(Project) |> Repo.preload([:users, :project_type, :lead_source])
+    Repo.all(Project) |> Repo.preload([:users, :project_type, :lead_source, :stage])
   end
 
   @doc """
@@ -37,7 +37,7 @@ defmodule App.Projects do
 
   """
   def get_project!(id) do
-    Project |> Repo.get(id) |> Repo.preload([:users, :project_type, :lead_source])
+    Project |> Repo.get(id) |> Repo.preload([:users, :project_type, :lead_source, :stage])
   end
 
   @doc """
@@ -105,13 +105,15 @@ defmodule App.Projects do
     users = list_users_by_id(attrs["user_ids"])
     project_type = get_or_create_project_type(attrs["project_type"])
     lead_source = get_lead_source!(attrs["lead_source_id"])
+    stage = get_stage!(attrs["stage_id"])
 
     project
-    |> Repo.preload([:users, :project_type, :lead_source])
+    |> Repo.preload([:users, :project_type, :lead_source, :stage])
     |> Project.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:users, users)
     |> Ecto.Changeset.put_assoc(:project_type, project_type)
     |> Ecto.Changeset.put_assoc(:lead_source, lead_source)
+    |> Ecto.Changeset.put_assoc(:stage, stage)
   end
 
   def list_users_by_id(nil), do: []

@@ -13,7 +13,5 @@ defmodule App.Repo.Migrations.CreateProjects do
 
       timestamps()
     end
-    # create unique_index(:projects, [:stage_id])
-    # create unique_index(:projects, [:lead_source_id])
   end
 end
