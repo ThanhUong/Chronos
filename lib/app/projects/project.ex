@@ -13,15 +13,15 @@ defmodule App.Projects.Project do
     timestamps()
 
     belongs_to :stage, Stage
-    many_to_many :project_types, ProjectType, join_through: "projects_project_types"
-    many_to_many :lead_sources, LeadSource, join_through: "projects_lead_sources"
+    belongs_to :lead_source, LeadSource
+    belongs_to :project_type, ProjectType
     many_to_many :users, User, join_through: "users_projects"
   end
 
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:name, :image, :start_date, :end_date, :stage_id])
-    |> validate_required([:name, :stage_id])
+    |> cast(attrs, [:name, :image, :start_date, :end_date])
+    |> validate_required([:name])
   end
 end

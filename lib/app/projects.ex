@@ -7,6 +7,7 @@ defmodule App.Projects do
   alias App.Repo
 
   alias App.Projects.Project
+  alias App.Accounts.User
 
   @doc """
   Returns the list of projects.
@@ -18,7 +19,7 @@ defmodule App.Projects do
 
   """
   def list_projects do
-    Repo.all(Project)
+    Repo.all(Project) |> Repo.preload([:users, :project_type, :lead_source])
   end
 
   @doc """
@@ -35,7 +36,9 @@ defmodule App.Projects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Project |> Repo.get(id) |> Repo.preload([:users, :project_type, :lead_source])
+  end
 
   @doc """
   Creates a project.
@@ -51,7 +54,7 @@ defmodule App.Projects do
   """
   def create_project(attrs \\ %{}) do
     %Project{}
-    |> Project.changeset(attrs)
+    |> change_project(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +72,7 @@ defmodule App.Projects do
   """
   def update_project(%Project{} = project, attrs) do
     project
-    |> Project.changeset(attrs)
+    |> change_project(attrs)
     |> Repo.update()
   end
 
@@ -99,7 +102,21 @@ defmodule App.Projects do
 
   """
   def change_project(%Project{} = project, attrs \\ %{}) do
-    Project.changeset(project, attrs)
+    users = list_users_by_id(attrs["user_ids"])
+    project_type = get_or_create_project_type(attrs["project_type"])
+    lead_source = get_lead_source!(attrs["lead_source_id"])
+
+    project
+    |> Repo.preload([:users, :project_type, :lead_source])
+    |> Project.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:users, users)
+    |> Ecto.Changeset.put_assoc(:project_type, project_type)
+    |> Ecto.Changeset.put_assoc(:lead_source, lead_source)
+  end
+
+  def list_users_by_id(nil), do: []
+  def list_users_by_id(user_ids) do
+    Repo.all(from u in User, where: u.id in ^user_ids)
   end
 
   alias App.Projects.ProjectType
@@ -132,6 +149,15 @@ defmodule App.Projects do
 
   """
   def get_project_type!(id), do: Repo.get!(ProjectType, id)
+
+  def get_or_create_project_type(project_type) do
+    if is_binary(project_type) do
+      {:ok, project_type} = create_project_type(%{name: project_type})
+      project_type
+    else
+      get_project_type!(project_type)
+    end
+  end
 
   @doc """
   Creates a project_type.

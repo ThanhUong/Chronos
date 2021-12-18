@@ -6,5 +6,7 @@ defmodule App.Repo.Migrations.CreateProjectTypes do
       add :name, :string
       timestamps()
     end
+
+    create unique_index(:project_types, [:name])
   end
 end

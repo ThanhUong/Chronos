@@ -12,7 +12,8 @@ defmodule AppWeb.ProjectTypeView do
 
   def render("project_type.json", %{project_type: project_type}) do
     %{
-      id: project_type.id
+      id: project_type.id,
+      name: project_type.name
     }
   end
 end

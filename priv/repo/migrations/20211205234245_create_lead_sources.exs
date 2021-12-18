@@ -6,5 +6,7 @@ defmodule App.Repo.Migrations.CreateLeadSources do
       add :name, :string
       timestamps()
     end
+
+    create unique_index(:lead_sources, [:name])
   end
 end

@@ -17,6 +17,7 @@ defmodule AppWeb.UserView do
 
   def render("user.json", %{user: user}) do
     %{
+      id: user.id,
       email: user.email,
       username: user.username,
       image: user.image

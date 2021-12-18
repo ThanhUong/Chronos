@@ -12,7 +12,8 @@ defmodule AppWeb.LeadSourceView do
 
   def render("lead_source.json", %{lead_source: lead_source}) do
     %{
-      id: lead_source.id
+      id: lead_source.id,
+      name: lead_source.name
     }
   end
 end
