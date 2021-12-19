@@ -2,7 +2,7 @@ defmodule App.Projects.Project do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias App.Accounts.User
+  alias App.Accounts.Organization
   alias App.Projects.{Stage, ProjectType, LeadSource}
 
   schema "projects" do
@@ -15,7 +15,7 @@ defmodule App.Projects.Project do
     belongs_to :stage, Stage
     belongs_to :lead_source, LeadSource
     belongs_to :project_type, ProjectType
-    many_to_many :users, User, join_through: "users_projects"
+    belongs_to :organization, Organization
   end
 
   @doc false

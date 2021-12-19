@@ -3,7 +3,6 @@ defmodule App.Accounts.User do
   import Ecto.Changeset
   import Bcrypt
 
-  alias App.Projects.Project
   alias App.Accounts.Organization
 
   # @primary_key {:id, :binary_id, autogenerate: true}
@@ -15,8 +14,7 @@ defmodule App.Accounts.User do
     field :image, :string
     timestamps()
 
-    many_to_many :projects, Project, join_through: "users_projects"
-    many_to_many :organizations, Organization, join_through: "users_organizations"
+    many_to_many :organizations, Organization, join_through: "organizations_users"
   end
 
   @doc false

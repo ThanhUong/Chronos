@@ -22,9 +22,8 @@ defmodule App.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  # def get_user!(id), do: Repo.get!(User, id)
   def get_user!(id) do
-    User |> Repo.get(id) |> Repo.preload(:organizations)
+    User |> Repo.get(id)
   end
 
   def get_user_by_email(email) do
@@ -113,7 +112,9 @@ defmodule App.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_organization!(id), do: Repo.get!(Organization, id)
+  def get_organization!(id) do
+    Organization |> Repo.get(id) |> Repo.preload([:users])
+  end
 
   def get_or_create_organization(organization) do
     if is_binary(organization) do

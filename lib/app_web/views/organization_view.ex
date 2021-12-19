@@ -1,6 +1,6 @@
 defmodule AppWeb.OrganizationView do
   use AppWeb, :view
-  alias AppWeb.OrganizationView
+  alias AppWeb.{OrganizationView, UserView}
 
   def render("index.json", %{organizations: organizations}) do
     %{data: render_many(organizations, OrganizationView, "organization.json")}
@@ -11,9 +11,11 @@ defmodule AppWeb.OrganizationView do
   end
 
   def render("organization.json", %{organization: organization}) do
+    users = UserView.render("index.json", users: organization.users)
     %{
       id: organization.id,
-      name: organization.name
+      name: organization.name,
+      users: users.user
     }
   end
 end
