@@ -4,6 +4,7 @@ defmodule App.Accounts.User do
   import Bcrypt
 
   alias App.Projects.Project
+  alias App.Accounts.Organization
 
   # @primary_key {:id, :binary_id, autogenerate: true}
   # @foreign_key_type :binary_id
@@ -15,6 +16,7 @@ defmodule App.Accounts.User do
     timestamps()
 
     many_to_many :projects, Project, join_through: "users_projects"
+    many_to_many :organizations, Organization, join_through: "users_organizations"
   end
 
   @doc false
