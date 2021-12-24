@@ -4,8 +4,8 @@ defmodule App.Repo.Migrations.CreateProjectRoles do
   def change do
     create table(:project_roles) do
       add :name, :string
-      add :user_id, references(:users, on_delete: :nothing)
-      add :project_id, references(:projects, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
     end

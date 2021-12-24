@@ -6,17 +6,18 @@ defmodule App.Projects.Stage do
 
   schema "stages" do
     field :name, :string
+    field :order, :integer
     timestamps()
 
     has_many :projects, Project
-    many_to_many :workflows, Workflow, join_through: "workflows_stages"
+    belongs_to :workflow, Workflow
 
   end
 
   @doc false
   def changeset(stage, attrs) do
     stage
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :order, :workflow_id])
+    |> validate_required([:name, :order, :workflow_id])
   end
 end

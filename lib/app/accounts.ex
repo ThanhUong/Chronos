@@ -7,6 +7,7 @@ defmodule App.Accounts do
 
   alias App.Repo
   alias App.Accounts.User
+  alias App.Projects
 
   @doc """
   Gets a single user.
@@ -119,6 +120,10 @@ defmodule App.Accounts do
   def get_or_create_organization(organization) do
     if is_binary(organization) do
       {:ok, organization} = create_organization(%{name: organization})
+      {:ok, workflow} = Projects.create_workflow(%{organization_id: organization.id})
+
+      Projects.create_default_stages(workflow.id)
+
       organization
     else
       get_organization!(organization)

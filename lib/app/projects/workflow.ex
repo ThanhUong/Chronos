@@ -3,17 +3,19 @@ defmodule App.Projects.Workflow do
   import Ecto.Changeset
 
   alias App.Projects.Stage
+  alias App.Accounts.Organization
 
   schema "workflows" do
-    many_to_many :stages, Stage, join_through: "workflows_stages"
-
     timestamps()
+
+    has_many :stages, Stage
+    belongs_to :organization, Organization
   end
 
   @doc false
   def changeset(workflow, attrs) do
     workflow
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:organization_id])
+    |> validate_required([:organization_id])
   end
 end

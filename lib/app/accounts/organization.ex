@@ -3,13 +3,14 @@ defmodule App.Accounts.Organization do
   import Ecto.Changeset
 
   alias App.Accounts.User
-  alias App.Projects.Project
+  alias App.Projects.{Project, Workflow}
 
   schema "organizations" do
     field :name, :string
     timestamps()
 
     has_many :projects, Project
+    has_many :workflows, Workflow
     many_to_many :users, User, join_through: "organizations_users"
   end
 

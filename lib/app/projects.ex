@@ -276,6 +276,17 @@ defmodule App.Projects do
   end
 
   @doc """
+  Creates default stages for a workflow.
+  """
+  def create_default_stages(workflow_id) do
+    ["inquiry", "follow up", "meeting", "proposal sent", "proposal signed", "retainer paid", "planning", "completed", "archived"]
+    |> Enum.with_index
+    |> Enum.each(fn({stage, index}) ->
+      create_stage(%{name: stage, order: index, workflow_id: workflow_id})
+    end)
+  end
+
+  @doc """
   Updates a stage.
 
   ## Examples
