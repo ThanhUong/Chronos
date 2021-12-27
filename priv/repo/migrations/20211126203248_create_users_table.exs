@@ -6,7 +6,6 @@ defmodule App.Repo.Migrations.CreateUsersTable do
       add :username, :string
       add :email, :string
       add :password, :string
-      add :image, :string
 
       timestamps()
     end

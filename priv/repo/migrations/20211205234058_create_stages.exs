@@ -8,7 +8,5 @@ defmodule App.Repo.Migrations.CreateStages do
       add :workflow_id, references(:workflows, on_delete: :delete_all)
       timestamps()
     end
-
-    create unique_index(:stages, [:name])
   end
 end

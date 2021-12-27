@@ -29,6 +29,8 @@ defmodule AppWeb.Router do
     resources "/projects", ProjectController, except: [:new, :edit]
     resources "/project-types", ProjectTypeController, except: [:new, :edit]
     resources "/lead-sources", LeadSourceController, except: [:new, :edit]
+    resources "/organizations", OrganizationController, except: [:new, :edit]
+    resources "/images", ImageController, except: [:new, :edit]
   end
 
   # Not required Authenticated

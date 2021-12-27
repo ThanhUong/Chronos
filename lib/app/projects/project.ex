@@ -7,7 +7,6 @@ defmodule App.Projects.Project do
 
   schema "projects" do
     field :name, :string
-    field :image, :string
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
     timestamps()

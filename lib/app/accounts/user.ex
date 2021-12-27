@@ -11,7 +11,6 @@ defmodule App.Accounts.User do
     field :username, :string, unique: true
     field :email, :string, unique: true
     field :password, :string
-    field :image, :string
     timestamps()
 
     many_to_many :organizations, Organization, join_through: "organizations_users"
@@ -20,7 +19,7 @@ defmodule App.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :image, :password])
+    |> cast(attrs, [:email, :username, :password])
     |> validate_required([:email, :username, :password])
     |> unique_constraint(:username, name: :users_username_index)
     |> unique_constraint(:email, name: :users_email_index)

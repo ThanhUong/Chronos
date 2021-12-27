@@ -4,7 +4,6 @@ defmodule App.Repo.Migrations.CreateProjects do
   def change do
     create table(:projects) do
       add :name, :string
-      add :image, :string
       add :start_date, :utc_datetime
       add :end_date, :utc_datetime
       add :stage_id, references(:stages, on_delete: :nilify_all)

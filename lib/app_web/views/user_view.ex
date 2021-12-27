@@ -19,8 +19,7 @@ defmodule AppWeb.UserView do
     %{
       id: user.id,
       email: user.email,
-      username: user.username,
-      image: user.image
+      username: user.username
     }
   end
 end
