@@ -20,7 +20,7 @@ defmodule App.Projects.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:name, :image, :start_date, :end_date])
+    |> cast(attrs, [:name, :start_date, :end_date])
     |> validate_required([:name])
   end
 end

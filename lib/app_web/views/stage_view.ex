@@ -13,7 +13,8 @@ defmodule AppWeb.StageView do
   def render("stage.json", %{stage: stage}) do
     %{
       id: stage.id,
-      name: stage.name
+      name: stage.name,
+      order: stage.order
     }
   end
 end

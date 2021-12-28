@@ -25,6 +25,12 @@ defmodule AppWeb.OrganizationController do
     render(conn, "show.json", organization: organization)
   end
 
+  def show_user_organizations(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    organizations = Accounts.list_organizations_of_user(user)
+    render(conn, "index_without_users.json", organizations: organizations)
+  end
+
   def update(conn, %{"id" => id, "organization" => organization_params}) do
     organization = Accounts.get_organization!(id)
 

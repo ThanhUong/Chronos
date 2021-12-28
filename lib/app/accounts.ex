@@ -100,6 +100,14 @@ defmodule App.Accounts do
   end
 
   @doc """
+  Returns the list of organizations of a user.
+  """
+  def list_organizations_of_user(nil), do: []
+  def list_organizations_of_user(user) do
+    user |> Ecto.assoc(:organizations) |> Repo.all |> Repo.preload([workflows: :stages])
+  end
+
+  @doc """
   Gets a single organization.
 
   Raises `Ecto.NoResultsError` if the Organization does not exist.

@@ -26,11 +26,15 @@ defmodule AppWeb.Router do
 
     get "/user", UserController, :show
     put "/user", UserController, :update
+
     resources "/projects", ProjectController, except: [:new, :edit]
     resources "/project-types", ProjectTypeController, except: [:new, :edit]
     resources "/lead-sources", LeadSourceController, except: [:new, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/images", ImageController, except: [:new, :edit]
+
+    get "/user/organizations", OrganizationController, :show_user_organizations
+
   end
 
   # Not required Authenticated
