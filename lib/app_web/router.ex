@@ -34,7 +34,8 @@ defmodule AppWeb.Router do
     resources "/images", ImageController, except: [:new, :edit]
 
     get "/user/organizations", OrganizationController, :show_user_organizations
-
+    get "/stages/:id/projects", ProjectController, :show_projects_of_stage
+    get "/workflows/:id/projects", ProjectController, :show_projects_of_workflow
   end
 
   # Not required Authenticated

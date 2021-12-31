@@ -18,6 +18,8 @@ defmodule AppWeb.ProjectView do
     %{
       id: project.id,
       name: project.name,
+      start_date: project.start_date,
+      end_date: project.end_date,
       organization: organization.data,
       lead_source: lead_source.data,
       project_type: project_type.data,

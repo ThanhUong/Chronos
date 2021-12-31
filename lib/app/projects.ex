@@ -22,6 +22,11 @@ defmodule App.Projects do
     Repo.all(Project) |> Repo.preload([:project_type, :lead_source, :stage, organization: :users])
   end
 
+  def list_projects_of_stage(nil), do: []
+  def list_projects_of_stage(stage) do
+    stage |> Ecto.assoc(:projects) |> Repo.all |> Repo.preload([:project_type, :lead_source, :stage, organization: :users])
+  end
+
   @doc """
   Gets a single project.
 
@@ -239,6 +244,14 @@ defmodule App.Projects do
   """
   def list_stages do
     Repo.all(Stage)
+  end
+
+  @doc """
+  Returns the list of stages for a given workflow
+  """
+  def list_stages_of_workflow(nil), do: []
+  def list_stages_of_workflow(workflow) do
+    workflow |> Ecto.assoc(:stages) |> Repo.all
   end
 
   @doc """

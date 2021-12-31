@@ -25,6 +25,21 @@ defmodule AppWeb.ProjectController do
     render(conn, "show.json", project: project)
   end
 
+  def show_projects_of_stage(conn, %{"id" => id}) do
+    stage = Projects.get_stage!(id)
+    projects = Projects.list_projects_of_stage(stage)
+    render(conn, "index.json", projects: projects)
+  end
+
+  def show_projects_of_workflow(conn, %{"id" => id}) do
+    workflow = Projects.get_workflow!(id)
+    stages = Projects.list_stages_of_workflow(workflow)
+    projects = Enum.reduce(stages, [], fn stage, acc ->
+      acc ++ Projects.list_projects_of_stage(stage)
+    end)
+    render(conn, "index.json", projects: projects)
+  end
+
   def update(conn, %{"id" => id, "project" => project_params}) do
     project = Projects.get_project!(id)
 
