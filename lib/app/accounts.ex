@@ -122,7 +122,25 @@ defmodule App.Accounts do
 
   """
   def get_organization!(id) do
-    Organization |> Repo.get(id) |> Repo.preload([:users])
+    Organization |> Repo.get!(id) |> Repo.preload([:users])
+  end
+
+  @doc """
+  Gets a single organization without preloading users association.
+
+  Raises `Ecto.NoResultsError` if the Organization does not exist.
+
+  ## Examples
+
+      iex> get_organization!(123)
+      %Organization{}
+
+      iex> get_organization!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_organization_without_users!(id) do
+    Organization |> Repo.get!(id)
   end
 
   def get_or_create_organization(organization) do

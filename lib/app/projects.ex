@@ -42,7 +42,7 @@ defmodule App.Projects do
 
   """
   def get_project!(id) do
-    Project |> Repo.get(id) |> Repo.preload([:project_type, :lead_source, :stage, organization: :users])
+    Project |> Repo.get!(id) |> Repo.preload([:project_type, :lead_source, :stage, organization: :users])
   end
 
   @doc """
@@ -107,18 +107,18 @@ defmodule App.Projects do
 
   """
   def change_project(%Project{} = project, attrs \\ %{}) do
-    project_type = get_or_create_project_type(attrs["project_type"])
-    lead_source = get_lead_source!(attrs["lead_source_id"])
-    stage = get_stage!(attrs["stage_id"])
-    organization = Accounts.get_organization!(attrs["organization_id"])
+      organization = if attrs["organization_id"], do: Accounts.get_organization!(attrs["organization_id"]), else: nil
+      project_type = if attrs["project_type"], do: get_or_create_project_type(attrs["project_type"]), else: nil
+      lead_source = if attrs["lead_source_id"], do: get_lead_source!(attrs["lead_source_id"]), else: nil
+      stage = if attrs["stage_id"], do: get_stage!(attrs["stage_id"]), else: nil
 
-    project
-    |> Repo.preload([:organization, :project_type, :lead_source, :stage])
-    |> Project.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:organization, organization)
-    |> Ecto.Changeset.put_assoc(:project_type, project_type)
-    |> Ecto.Changeset.put_assoc(:lead_source, lead_source)
-    |> Ecto.Changeset.put_assoc(:stage, stage)
+      project
+      |> Repo.preload([:organization, :project_type, :lead_source, :stage])
+      |> Project.changeset(attrs)
+      |> (fn(n) -> organization !== nil && n |> Ecto.Changeset.put_assoc(:organization, organization) || n end).()
+      |> (fn(n) -> project_type !== nil && n |> Ecto.Changeset.put_assoc(:project_type, project_type) || n end).()
+      |> (fn(n) -> lead_source !== nil && n |> Ecto.Changeset.put_assoc(:lead_source, lead_source) || n end).()
+      |> (fn(n) -> stage !== nil && n |> Ecto.Changeset.put_assoc(:stage, stage) || n end).()
   end
 
   def list_users_by_id(nil), do: []

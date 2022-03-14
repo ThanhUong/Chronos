@@ -23,7 +23,8 @@ defmodule AppWeb.ProjectView do
       organization: organization.data,
       lead_source: lead_source.data,
       project_type: project_type.data,
-      stage: stage.data
+      stage: stage.data,
+      updated_at: project.updated_at
     }
   end
 end
