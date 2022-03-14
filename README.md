@@ -1,3 +1,11 @@
+# About
+WIP HoneyBook Clone: 
+
+* RESTful backend
+* Token based authentication using Guardian (https://github.com/ueberauth/guardian)
+* File upload support using Waffle (https://github.com/elixir-waffle/waffle)
+
+
 # App
 
 To start your Phoenix server:
