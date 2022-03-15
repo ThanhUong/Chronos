@@ -2,19 +2,20 @@ defmodule AppWeb.ProjectControllerTest do
   use AppWeb.ConnCase
 
   import App.ProjectsFixtures
+  import App.AccountsFixtures
+  import App.Guardian
 
   alias App.Projects.Project
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
-  @invalid_attrs %{}
-
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = user_fixture_with_dependencies()
+    {:ok, token, _claims} = encode_and_sign(user)
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("authorization", "Token #{token}")
+
+    {:ok, conn: conn}
   end
 
   describe "index" do
@@ -26,7 +27,8 @@ defmodule AppWeb.ProjectControllerTest do
 
   describe "create project" do
     test "renders project when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.project_path(conn, :create), project: @create_attrs)
+      create_attrs = valid_project_attrs()
+      conn = post(conn, Routes.project_path(conn, :create), project: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.project_path(conn, :show, id))
@@ -37,7 +39,8 @@ defmodule AppWeb.ProjectControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.project_path(conn, :create), project: @invalid_attrs)
+      invalid_attrs = invalid_project_attrs()
+      conn = post(conn, Routes.project_path(conn, :create), project: invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -46,7 +49,9 @@ defmodule AppWeb.ProjectControllerTest do
     setup [:create_project]
 
     test "renders project when data is valid", %{conn: conn, project: %Project{id: id} = project} do
-      conn = put(conn, Routes.project_path(conn, :update, project), project: @update_attrs)
+      update_attrs = update_project_attrs()
+
+      conn = put(conn, Routes.project_path(conn, :update, project), project: update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.project_path(conn, :show, id))
@@ -57,7 +62,8 @@ defmodule AppWeb.ProjectControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, project: project} do
-      conn = put(conn, Routes.project_path(conn, :update, project), project: @invalid_attrs)
+      invalid_attrs = invalid_project_attrs()
+      conn = put(conn, Routes.project_path(conn, :update, project), project: invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -76,7 +82,7 @@ defmodule AppWeb.ProjectControllerTest do
   end
 
   defp create_project(_) do
-    project = project_fixture()
+    project = project_fixture_with_dependencies()
     %{project: project}
   end
 end

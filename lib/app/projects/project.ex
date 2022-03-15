@@ -11,10 +11,10 @@ defmodule App.Projects.Project do
     field :end_date, :utc_datetime
     timestamps()
 
-    belongs_to :stage, Stage
-    belongs_to :lead_source, LeadSource
-    belongs_to :project_type, ProjectType
-    belongs_to :organization, Organization
+    belongs_to :stage, Stage, on_replace: :nilify
+    belongs_to :lead_source, LeadSource, on_replace: :nilify
+    belongs_to :project_type, ProjectType, on_replace: :nilify
+    belongs_to :organization, Organization, on_replace: :nilify
   end
 
   @doc false
