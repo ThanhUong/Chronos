@@ -13,7 +13,7 @@ defmodule App.Accounts.User do
     field :password, :string
     timestamps()
 
-    many_to_many :organizations, Organization, join_through: "organizations_users"
+    many_to_many :organizations, Organization, join_through: "organizations_users", on_replace: :delete
   end
 
   @doc false

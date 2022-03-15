@@ -33,6 +33,24 @@ defmodule App.AccountsFixtures do
   end
 
   @doc """
+  Generate invalid user attributes.
+  """
+  def invalid_user_attrs() do
+    valid_user_attrs(
+      %{"username" => nil}
+    )
+  end
+
+  @doc """
+  Generate update user attributes.
+  """
+  def update_user_attrs() do
+    valid_user_attrs(
+      %{"username" => "test2"}
+    )
+  end
+
+  @doc """
   Generate a user with dependencies.
   """
   def user_fixture_with_dependencies(attrs \\ %{}) do
