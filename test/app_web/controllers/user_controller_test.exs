@@ -22,17 +22,6 @@ defmodule AppWeb.UserControllerTest do
       create_attrs = valid_user_attrs()
       conn = post(conn, Routes.user_path(conn, :create), user: create_attrs)
       assert %{"id" => id, "token" => token} = json_response(conn, 200)["user"]
-
-      conn =
-        conn
-        |> recycle()
-        |> put_req_header("authorization", "Token #{token}")
-
-      conn = get(conn, Routes.user_path(conn, :show))
-
-      assert %{
-                "id" => ^id
-             } = json_response(conn, 200)["user"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -48,9 +37,7 @@ defmodule AppWeb.UserControllerTest do
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = _user} do
       conn = get(conn, Routes.user_path(conn, :show))
 
-      assert %{
-                "id" => ^id
-             } = json_response(conn, 200)["user"]
+      assert %{"id" => ^id} = json_response(conn, 200)["user"]
     end
   end
 
@@ -64,9 +51,7 @@ defmodule AppWeb.UserControllerTest do
 
       conn = get(conn, Routes.user_path(conn, :show))
 
-      assert %{
-               "id" => ^id
-             } = json_response(conn, 200)["user"]
+      assert %{"id" => ^id} = json_response(conn, 200)["user"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: _user} do
