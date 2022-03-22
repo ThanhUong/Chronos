@@ -76,4 +76,19 @@ defmodule App.AccountsFixtures do
 
     organization
   end
+
+  @doc """
+  Generate a role.
+  """
+  def role_fixture(attrs \\ %{}) do
+    {:ok, role} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> App.Accounts.create_role()
+
+    role
+  end
 end

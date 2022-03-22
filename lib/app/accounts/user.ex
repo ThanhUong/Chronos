@@ -3,7 +3,7 @@ defmodule App.Accounts.User do
   import Ecto.Changeset
   import Bcrypt
 
-  alias App.Accounts.Organization
+  alias App.Accounts.{Organization, Role}
 
   # @primary_key {:id, :binary_id, autogenerate: true}
   # @foreign_key_type :binary_id
@@ -14,6 +14,7 @@ defmodule App.Accounts.User do
     timestamps()
 
     many_to_many :organizations, Organization, join_through: "organizations_users", on_replace: :delete
+    many_to_many :roles, Role, join_through: "organizations_users", on_replace: :delete
   end
 
   @doc false
