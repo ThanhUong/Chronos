@@ -10,8 +10,8 @@ defmodule App.Accounts.Role do
 
     timestamps()
 
-    many_to_many :organizations, Organization, join_through: "organizations_users"
-    many_to_many :users, User, join_through: "organizations_users"
+    many_to_many :organizations, Organization, join_through: "organizations_users", on_replace: :delete
+    many_to_many :users, User, join_through: "organizations_users", on_replace: :delete
   end
 
   @doc false
